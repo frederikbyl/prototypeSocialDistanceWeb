@@ -49,9 +49,10 @@ function renderGraph() {
 
       var node = svg.selectAll(".node")
         .data(graph.nodes).enter()
-        .append("circle")
+        .append("circle").style("fill", function (d) { return '#1f77b4'; })
         .attr("class", d => {
-          return "node " + d.label
+          console.log (d.badgeId)
+          return "node " + d.badgeId
         })
         .attr("r", 10)
         .call(force.drag);

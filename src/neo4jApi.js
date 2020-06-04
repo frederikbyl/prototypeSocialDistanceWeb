@@ -11,7 +11,7 @@ function searchMovies(queryString) {
   return session
     .run(
       'MATCH (badge:Badge)--(location:Location) \
-      RETURN badge, location',
+      RETURN badge, location order by badge.timeOfLastKnownLocation desc',
       {title: '(?i).*' + queryString + '.*'}
     )
     .then(result => {
