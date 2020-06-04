@@ -24,7 +24,7 @@ function searchMovies(queryString) {
           timeOfLastKnownLocation : record.get('badge').properties.timeOfLastKnownLocation,
           location : record.get('location').properties.name
         };
-        console.log(badge)
+        
         return new Movie(badge);
       });
     })
@@ -44,13 +44,22 @@ function getGraph() {
       session.close();
       var nodes = [], rels = [], i = 0;
       results.records.forEach(res => {
-        nodes.push({badgeId: res.get('badgeId'), label: 'badgeId'});
+        var existsAlready = _.findIndex(nodes, {badgeId: res.get('badgeId'), label: 'badgeId'});
+        console.log(existsAlready);
         var target = i;
-        i++;
+        if (existsAlready == -1) {
+          nodes.push({badgeId: res.get('badgeId'), label: 'badgeId'});
+          target = i;
+          i++; 
+        } else {
+          target = existsAlready;
+        }
 
         res.get('cast').forEach(name => {
+          console.log(name);
           var badge = {badgeId: name, label: 'badgeId'};
           var source = _.findIndex(nodes, badge);
+          console.log(source);
           if (source == -1) {
             nodes.push(badge);
             source = i;
