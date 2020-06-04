@@ -10,21 +10,6 @@ $(function () {
   });
 });
 
-function showMovie(title) {
-  api
-    .getMovie(title)
-    .then(movie => {
-      if (!movie) return;
-
-      $("#title").text(movie.title);
-      $("#poster").attr("src", "http://neo4j-contrib.github.io/developer-resources/language-guides/assets/posters/" + movie.title + ".jpg");
-      var $list = $("#crew").empty();
-      movie.cast.forEach(cast => {
-        $list.append($("<li>" + cast.name + " " + cast.job + (cast.job == "acted" ? " as " + cast.role : "") + "</li>"));
-      });
-    }, "json");
-}
-
 function search() {
   var query = $("#search").find("input[name=search]").val();
   api
@@ -34,16 +19,12 @@ function search() {
 
       if (movies) {
         movies.forEach(movie => {
-          $("<tr><td class='movie'>" + movie.title + "</td><td>" + movie.released + "</td><td>" + movie.tagline + "</td></tr>").appendTo(t)
-            .click(function() {
-              showMovie($(this).find("td.movie").text());
-            })
+          $("<tr><td class='movie'>" + movie.badgeId + "</td><td>" + movie.uuid + "</td><td>" + movie.timeOfLastKnownLocation + "</td><td>"+ movie.location + "</td></tr>").appendTo(t)
+            
         });
 
         var first = movies[0];
-        if (first) {
-          showMovie(first.title);
-        }
+      
       }
     });
 }

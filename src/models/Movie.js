@@ -1,13 +1,16 @@
 var _ = require('lodash');
 
 function Movie(_node) {
-  _.extend(this, _node.properties);
+  _.extend(this, _node);
 
-  if (this.id) {
-    this.id = this.id.toNumber();
+  if (this.badgeId) {
+    this.badgeId = this.badgeId;
   }
-  if (this.duration) {
-    this.duration = this.duration.toNumber();
+  if (this.timeOfLastKnownLocation) {
+    this.timeOfLastKnownLocation = new Date(this.timeOfLastKnownLocation);
+  }
+  if (this.location) {
+    this.location = this.location;
   }
 }
 
